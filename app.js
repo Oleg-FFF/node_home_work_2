@@ -47,7 +47,12 @@ app.get('/register', (req, res) => {
 app.post('/login', (req, res) => {
     const {name, pass} = req.body;
     console.log(req.body);
-    if (users.find(user => user.name === name && user.pass === pass)) {
+    let userIndex = users.findIndex(user => user.name === name);
+    let nameCheck = userIndex >= 0;
+    let passCheck = nameCheck ? users[userIndex].pass === pass : false;
+    console.log(nameCheck);
+    console.log(passCheck);
+    if (nameCheck && passCheck) {
         res.write('You are logged in')
         console.log('Logged in')
         res.end()
@@ -62,12 +67,12 @@ app.post('/reg', (req, res) => {
     const {name, pass} = req.body;
     console.log(req.body);
     if (users.find(user => user.name === name)) {
-        res.write('Sorry, but You are already registred')
+        res.write('Sorry, but You are already registered')
         console.log('not ok')
         res.end()
         return
     }
-        res.write('You are succesfully registred')
+        res.write('You are successfully registered')
         users.push({name, pass})
         console.log('ok')
         res.end()
